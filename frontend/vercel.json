@@ -1,0 +1,18 @@
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "build": {
+    "env": {
+      "VITE_API_BASE_URL": "@vite_api_base_url"
+    }
+  },
+  "functions": {
+    "app/**/*.{js,ts}": {
+      "runtime": "@vercel/static"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+# Render deployment configuration
+version: 1
+
+services:
+  - type: web
+    name: video-qa-backend
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 app:app
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: video-qa-redis
+          property: connectionString
+      - key: FLASK_ENV
+        value: production
+
+  - type: redis
+    name: video-qa-redis
+    plan: free
+    region: oregon

@@ -1,0 +1,38 @@
+# Optimized Dockerfile for free hosting
+FROM python:3.11-slim
+
+# Install system dependencies (minimal for free hosting)
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    libsndfile1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Create uploads directory
+RUN mkdir -p uploads
+
+# Set environment variables for production
+ENV PYTHONPATH=/app
+ENV FLASK_ENV=production
+ENV PYTHONUNBUFFERED=1
+
+# Expose port (Railway/Render will set PORT env var)
+EXPOSE $PORT
+
+# Health check (lighter for free hosting)
+HEALTHCHECK --interval=60s --timeout=10s --start-period=10s --retries=2 \
+    CMD curl -f http://localhost:$PORT/api/health || exit 1
+
+# Optimized command for free hosting (single worker)
+CMD gunicorn --bind 0.0.0.0:$PORT --workers 1 --timeout 300 --max-requests 100 --preload app:app
