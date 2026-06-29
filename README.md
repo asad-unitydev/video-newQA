@@ -404,7 +404,7 @@ For issues and questions:
 2. Review the troubleshooting section
 3. Check Docker logs for error details
 4. Create an issue with detailed error information
-
+5. Contact asad.regalsystems@gmail.com
 ---
 
 **Built with ❤️ using only free and open-source technologies Regal Systems**
