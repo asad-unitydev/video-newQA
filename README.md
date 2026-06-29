@@ -407,4 +407,4 @@ For issues and questions:
 
 ---
 
-**Built with ❤️ using only free and open-source technologies**
+**Built with ❤️ using only free and open-source technologies Regal Systems**
